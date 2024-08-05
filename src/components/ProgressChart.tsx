@@ -1,14 +1,5 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
-import {
-  Label,
-  PolarGrid,
-  PolarRadiusAxis,
-  RadialBar,
-  RadialBarChart,
-} from "recharts";
-
 import {
   Card,
   CardContent,
@@ -18,27 +9,52 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
+import { User } from "@/types/user";
+import { TrendingUp } from "lucide-react";
+import {
+  Label,
+  PolarGrid,
+  PolarRadiusAxis,
+  RadialBar,
+  RadialBarChart,
+} from "recharts";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const chartData = [
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
+  { period: "current", chachas: 4, fill: "var(--color-current)" },
 ];
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  chachas: {
+    label: "Chachas",
   },
-  safari: {
-    label: "Safari",
+  current: {
+    label: "Current",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
 
-export default function Component() {
+type ProgressChartProps = {
+  user: User;
+};
+
+export default function ProgressChart({ user }: ProgressChartProps) {
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col border-none shadow-none">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart - Text</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle className="self-start">
+          <div className="flex gap-2 items-center">
+            <Avatar>
+              <AvatarImage src={user.pfpUrl} />
+              <AvatarFallback>{user.name.slice(0, 2)}</AvatarFallback>
+            </Avatar>
+            <div>
+              <p>{user.name}</p>
+              <p className="text-sm">{user.address}</p>
+            </div>
+          </div>
+        </CardTitle>
+        <CardDescription>Aug 5th - Aug 11th</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -59,7 +75,7 @@ export default function Component() {
               className="first:fill-muted last:fill-background"
               polarRadius={[86, 74]}
             />
-            <RadialBar dataKey="visitors" background cornerRadius={10} />
+            <RadialBar dataKey="chachas" background cornerRadius={10} />
             <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
               <Label
                 content={({ viewBox }) => {
@@ -76,14 +92,14 @@ export default function Component() {
                           y={viewBox.cy}
                           className="fill-foreground text-4xl font-bold"
                         >
-                          {chartData[0].visitors.toLocaleString()}
+                          {chartData[0].chachas.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Chachas
                         </tspan>
                       </text>
                     );
@@ -99,7 +115,7 @@ export default function Component() {
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Showing total chachas for the last week
         </div>
       </CardFooter>
     </Card>
