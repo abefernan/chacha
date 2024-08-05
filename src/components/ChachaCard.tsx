@@ -3,6 +3,7 @@
 import { Chacha } from "@/types/chacha";
 import Image from "next/image";
 import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 type ChachaCardProps = {
   chacha: Chacha;
@@ -16,7 +17,16 @@ export function ChachaCard({ chacha }: ChachaCardProps) {
           translateZ="50"
           className="text-xl font-bold text-neutral-600 dark:text-white"
         >
-          {chacha.user}
+          <div className="flex gap-2 items-center">
+            <Avatar>
+              <AvatarImage src={chacha.user.pfpUrl} />
+              <AvatarFallback>{chacha.user.name.slice(0, 2)}</AvatarFallback>
+            </Avatar>
+            <div>
+              <p>{chacha.user.name}</p>
+              <p className="text-sm">{chacha.user.address}</p>
+            </div>
+          </div>
         </CardItem>
         <CardItem
           as="p"
