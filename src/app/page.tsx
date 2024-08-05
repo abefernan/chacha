@@ -1,12 +1,13 @@
 "use client";
 
 import { ChachaCard } from "@/components/ChachaCard";
-import MyChart from "@/components/MyChart";
-import { mockChachas } from "@/lib/mockChachas";
-import { useState } from "react";
+import ProgressChart from "@/components/ProgressChart";
+import { mockChachas } from "@/lib/mocks/mockChachas";
+import { mockUsers } from "@/lib/mocks/mockUsers";
+import { useUser } from "@/lib/providers/UserProvider";
 
 export default function Home() {
-  const [user, setUser] = useState<string>();
+  const { user, setUser } = useUser();
 
   return (
     <main className="max-w-screen-2xl pb-40 mx-auto">
@@ -17,16 +18,35 @@ export default function Home() {
         <p className="text-base md:text-lg mt-4 font-normal inter-var">
           Walk more than thirty minutes and take a picture of a tree.
         </p>
-        <button
-          onClick={() => setUser("0x2123kh123")}
-          className="mt-12 px-8 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-md relative group transition duration-200 text-white"
-        >
-          Submit chacha
-        </button>
+        <div className="w-48">
+          <button
+            onClick={
+              user
+                ? () => console.log("will open modal")
+                : () =>
+                    setUser(
+                      mockUsers[
+                        Math.floor(Math.random() * (mockUsers.length + 1))
+                      ],
+                    )
+            }
+            className="mt-12 w-full py-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-md relative group transition duration-200 text-white"
+          >
+            {user ? "Submit chacha" : "Connect wallet"}
+          </button>
+          {user ? (
+            <button
+              onClick={() => setUser(null)}
+              className="mt-4 w-full shadow-[0_0_0_3px_#000000_inset] px-6 py-2 bg-transparent border border-black dark:border-white dark:text-white text-black rounded-lg font-bold transform hover:-translate-y-1 transition duration-400"
+            >
+              Disconnect
+            </button>
+          ) : null}
+        </div>
       </section>
       {user ? (
         <section className="max-w-4xl mx-auto mt-12">
-          <MyChart />
+          <ProgressChart user={user} />
         </section>
       ) : null}
       <section className="mt-12">
