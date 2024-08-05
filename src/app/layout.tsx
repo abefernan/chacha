@@ -1,7 +1,8 @@
+import UserProvider from "@/lib/providers/UserProvider";
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("m-8", inter.className)}>{children}</body>
+      <body className={cn("m-8", inter.className)}>
+        <UserProvider>{children}</UserProvider>
+      </body>
     </html>
   );
 }
