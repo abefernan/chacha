@@ -1,6 +1,8 @@
+import { User } from "./user";
+
 export type Chacha = {
   imgUrl: string;
-  user: string;
+  user: User;
   date: Date;
   verifications: number;
 };
