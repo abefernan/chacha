@@ -56,7 +56,7 @@ export default function Home() {
         <div className="mx-auto mt-8">
           <div className="flex flex-wrap gap-4 md:gap-5 lg:gap-6">
             {mockChachas
-              .toSorted((a, b) => b.date - a.date)
+              .toSorted((a, b) => +b.date - +a.date)
               .map((chacha, i) => (
                 <ChachaCard key={i} chacha={chacha} />
               ))}
